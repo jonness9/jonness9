@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jonness9.github.io/my-website/sitemap.xml

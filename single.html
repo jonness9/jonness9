@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Name Manager</title>
+    <meta name="description" content="Simple JavaScript web app to add, search, and delete names interactively.">
+    <meta name="keywords" content="JavaScript, HTML, Name App, Add Delete Show Name, Web Project">
+    <meta name="author" content="YourName">
+    <link rel="canonical" href="https://jonness9.github.io/my-website/">
+    <style>
+        body {
+            background-image: url('image.PNG');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .fixed-background {
+            background-image: url('image.PNG');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
+
+        .notification, .nnotification, .notce {
+            display: flex;
+            position: relative;
+            border-radius: 8px;
+            border: 2px solid;
+            background-color: bisque;
+            width: max-content;
+        }
+
+        .notification {
+            left: 18%;
+            bottom: -210%;
+            transform: translate(18%, -210%);
+        }
+
+        .nnotification {
+            left: 13%;
+            bottom: -215%;
+            transform: translate(13%, -215%);
+        }
+
+        .notce {
+            left: 50%;
+            bottom: -5%;
+            transform: translate(50%, -5%);
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Entering of Data</h2>
+    <div>
+        <input type="text" id="addName" placeholder="Please enter a name to add">
+        <button onclick="add()">Add</button>
+        <div class="notification" id="Not"></div>
+    </div>
+    <div>
+        <h3 style='color:rgb(4, 13, 110)'>To Show or Delete a Name, Please Enter a Valid One</h3>
+        <input type="text" id="searchName" placeholder="Please enter a name to show/delete">
+        <br><br>
+        <span class="notce" id="gNot"></span>
+        <button onclick="showName()">Show</button>
+        <button onclick="deleteName()">Delete</button>
+        <span class="nnotification" id="mNot"></span>
+    </div>
+    <div id="list"></div>
+
+    <script>
+        let arr = [];
+
+        function add() {
+            let name = document.getElementById("addName").value.trim();
+            let notification = document.getElementById("Not");
+
+            if (name) {
+                arr.push(name);
+                document.getElementById("addName").value = "";
+                notification.innerHTML = "<p style='color:aqua'><strong>Added a Name</strong></p>";
+            } else {
+                notification.innerHTML = "<p style='color:red'><strong>Please enter a name to add</strong></p>";
+            }
+        }
+
+        function showName() {
+            let searchName = document.getElementById("searchName").value.trim();
+            let list = document.getElementById("list");
+            list.innerHTML = "";
+
+            if (!searchName) {
+                document.getElementById("mNot").innerHTML = "<p style='color:red'>Please enter a name to show</p>";
+                return;
+            }
+
+            let foundName = arr.find(item => item === searchName);
+            if (foundName) {
+                let div = document.createElement("div");
+                div.innerHTML = `<p><strong>Name:</strong> ${foundName}</p>`;
+                document.getElementById("searchName").value = "";
+                list.appendChild(div);
+            } else {
+                document.getElementById("mNot").innerHTML = "<p style='color:red'>This Name does not exist</p>";
+                document.getElementById("searchName").value = "";
+            }
+        }
+
+        function deleteName() {
+            let searchName = document.getElementById("searchName").value.trim();
+
+            if (!searchName) {
+                document.getElementById("gNot").innerHTML = "<p style='color:red'>Please enter a name to delete</p>";
+                return;
+            }
+
+            let foundName = arr.find(item => item === searchName);
+            if (foundName) {
+                arr = arr.filter(item => item !== searchName);
+                document.getElementById("searchName").value = "";
+                document.getElementById("gNot").innerHTML = "<p style='color:green'>The Name has been deleted</p>";
+            } else {
+                document.getElementById("gNot").innerHTML = "<p style='color:red'>This Name does not exist</p>";
+                document.getElementById("searchName").value = "";
+            }
+        }
+    </script>
+</body>
+</html>
